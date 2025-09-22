@@ -37,14 +37,16 @@ return {
           Folded = { bg = "NONE", fg = "NONE" },
           FoldColumn = { bg = "NONE", fg = "NONE" },
           EndOfBuffer = { bg = "NONE", fg = "NONE" },
-          -- Which-key and plugin popup backgrounds
-          WhichKey = { bg = "NONE" },
-          WhichKeyNormal = { bg = "NONE" },
-          WhichKeyBorder = { bg = "NONE" },
-          WhichKeyDesc = { bg = "NONE" },
-          WhichKeyGroup = { bg = "NONE" },
-          WhichKeySeperator = { bg = "NONE" },
-          -- LazyVim dashboard/landing page (from your debug output)
+          -- Which-key and plugin popup backgrounds with high opacity
+          WhichKey = { bg = "#000000", blend = 20 },
+          WhichKeyNormal = { bg = "#000000", blend = 20 },
+          WhichKeyBorder = { bg = "#000000", blend = 20 },
+          WhichKeyDesc = { bg = "#000000", blend = 20 },
+          WhichKeyGroup = { bg = "#000000", blend = 20 },
+          WhichKeySeperator = { bg = "#000000", blend = 20 },
+          NormalFloat = { bg = "#000000", blend = 20 },
+          FloatBorder = { bg = "#000000", blend = 20 },
+          -- LazyVim dashboard/landing page
           LazyButton = { bg = "NONE" },
           LazyButtonActive = { bg = "NONE" },
           LazyComment = { bg = "NONE" },
@@ -59,6 +61,15 @@ return {
           LazyReasonStart = { bg = "NONE" },
           LazySpecial = { bg = "NONE" },
           LazyUrl = { bg = "NONE" },
+          -- Dashboard specific groups (Snacks.nvim dashboard)
+          SnacksDashboardNormal = { bg = "NONE" },
+          SnacksDashboardIcon = { bg = "NONE" },
+          SnacksDashboardDesc = { bg = "NONE" },
+          DashboardHeader = { bg = "NONE" },
+          DashboardFooter = { bg = "NONE" },
+          DashboardKey = { bg = "NONE" },
+          DashboardDesc = { bg = "NONE" },
+          DashboardIcon = { bg = "NONE" },
         }
 
         -- Apply TTY UI overrides
