@@ -1,4 +1,30 @@
+--[[
+THEME CONFIGURATION: TTY + Monokai Syntax
+==========================================
+
+This configuration achieves:
+✅ TTY transparent background for main editor
+✅ Authentic monokai-pro syntax highlighting
+✅ Semi-transparent popups (Mason, Lazy, Which-key) with white borders
+✅ Fully transparent dashboard for TTY look
+
+Approach:
+1. Load full monokai-pro theme first (gets all syntax highlighting)
+2. Override UI elements to be transparent (TTY look)
+3. Configure Mason/Lazy with borders
+4. Use winblend for popup transparency
+--]]
+
 return {
+  -- Add Mason with border configuration
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ui = {
+        border = "rounded", -- Enables white borders for Mason windows
+      },
+    },
+  },
   {
     "loctvl842/monokai-pro.nvim",
     lazy = false,
@@ -13,10 +39,9 @@ return {
       local function apply_tty_overrides()
         -- Override UI elements to get TTY appearance while keeping monokai syntax
         local tty_ui_overrides = {
+          -- Main editor - fully transparent for TTY look
           Normal = { bg = "NONE", fg = "NONE" },
           NormalNC = { bg = "NONE", fg = "NONE" },
-          NormalFloat = { bg = "NONE" },
-          FloatBorder = { bg = "NONE" },
           StatusLine = { bg = "NONE", fg = "NONE" },
           StatusLineNC = { bg = "NONE", fg = "NONE" },
           TabLine = { bg = "NONE", fg = "NONE" },
@@ -37,23 +62,38 @@ return {
           Folded = { bg = "NONE", fg = "NONE" },
           FoldColumn = { bg = "NONE", fg = "NONE" },
           EndOfBuffer = { bg = "NONE", fg = "NONE" },
-          -- Which-key and plugin popup backgrounds with high opacity
-          WhichKey = { bg = "#000000", blend = 20 },
-          WhichKeyNormal = { bg = "#000000", blend = 20 },
-          WhichKeyBorder = { bg = "#000000", blend = 20 },
-          WhichKeyDesc = { bg = "#000000", blend = 20 },
-          WhichKeyGroup = { bg = "#000000", blend = 20 },
-          WhichKeySeperator = { bg = "#000000", blend = 20 },
-          NormalFloat = { bg = "#000000", blend = 20 },
-          FloatBorder = { bg = "#000000", blend = 20 },
-          -- LazyVim dashboard/landing page
+
+          -- Popup windows - transparent with white borders
+          WhichKey = { bg = "NONE" },
+          WhichKeyNormal = { bg = "NONE" },
+          WhichKeyBorder = { bg = "NONE", fg = "#ffffff", bold = true },
+          WhichKeyDesc = { bg = "NONE" },
+          WhichKeyGroup = { bg = "NONE" },
+          WhichKeySeperator = { bg = "NONE", fg = "#ffffff" },
+
+          -- Floating windows - transparent with white borders
+          NormalFloat = { bg = "NONE" },
+          FloatBorder = { bg = "NONE", fg = "#ffffff", bold = true },
+          FloatTitle = { bg = "NONE", fg = "#ffffff", bold = true },
+
+          -- Mason specific - transparent backgrounds
+          MasonNormal = { bg = "NONE" },
+          MasonHeader = { bg = "NONE" },
+          MasonHeaderSecondary = { bg = "NONE" },
+          MasonHighlight = { bg = "NONE" },
+          MasonHighlightBlock = { bg = "NONE" },
+          MasonHighlightBlockBold = { bg = "NONE" },
+
+          -- Lazy popups - transparent backgrounds
+          LazyNormal = { bg = "NONE" },
+
+          -- LazyVim dashboard/landing page - fully transparent for TTY
           LazyButton = { bg = "NONE" },
           LazyButtonActive = { bg = "NONE" },
           LazyComment = { bg = "NONE" },
           LazyDir = { bg = "NONE" },
           LazyH1 = { bg = "NONE" },
           LazyH2 = { bg = "NONE" },
-          LazyNormal = { bg = "NONE" },
           LazyProgressDone = { bg = "NONE" },
           LazyProgressTodo = { bg = "NONE" },
           LazyProp = { bg = "NONE" },
@@ -61,6 +101,7 @@ return {
           LazyReasonStart = { bg = "NONE" },
           LazySpecial = { bg = "NONE" },
           LazyUrl = { bg = "NONE" },
+
           -- Dashboard specific groups (Snacks.nvim dashboard)
           SnacksDashboardNormal = { bg = "NONE" },
           SnacksDashboardIcon = { bg = "NONE" },
@@ -78,10 +119,28 @@ return {
         end
       end
 
-      -- Apply overrides on VimEnter and also when colorscheme changes
+      -- Apply overrides multiple times to ensure they stick
       vim.api.nvim_create_autocmd("VimEnter", { callback = apply_tty_overrides })
       vim.api.nvim_create_autocmd("ColorScheme", { callback = apply_tty_overrides })
       vim.api.nvim_create_autocmd("BufWinEnter", { callback = apply_tty_overrides })
+
+      -- Add 20% transparency to Mason and Lazy popup windows
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "mason", "lazy" },
+        callback = function()
+          vim.opt_local.winblend = 20 -- 80% opacity, TTY shows through
+        end,
+      })
+
+      -- Add 20% transparency to which-key popup
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "WhichKeyOpened",
+        callback = function()
+          if vim.api.nvim_win_is_valid(vim.g.which_key_win) then
+            vim.api.nvim_win_set_option(vim.g.which_key_win, "winblend", 20)
+          end
+        end,
+      })
     end,
   },
   {
