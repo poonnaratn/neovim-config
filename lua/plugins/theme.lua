@@ -16,9 +16,53 @@ Approach:
 --]]
 
 return {
+  -- Disable bufferline for clean TTY look
+  { "akinsho/bufferline.nvim", enabled = false },
+
+  -- Configure lualine for TTY transparency
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      options = {
+        theme = {
+          normal = {
+            a = { bg = "NONE", fg = "#ffffff", gui = "bold" },
+            b = { bg = "NONE", fg = "#ffffff" },
+            c = { bg = "NONE", fg = "#ffffff" },
+          },
+          insert = {
+            a = { bg = "NONE", fg = "#a6e22e", gui = "bold" },
+            b = { bg = "NONE", fg = "#ffffff" },
+            c = { bg = "NONE", fg = "#ffffff" },
+          },
+          visual = {
+            a = { bg = "NONE", fg = "#fd971f", gui = "bold" },
+            b = { bg = "NONE", fg = "#ffffff" },
+            c = { bg = "NONE", fg = "#ffffff" },
+          },
+          replace = {
+            a = { bg = "NONE", fg = "#f92672", gui = "bold" },
+            b = { bg = "NONE", fg = "#ffffff" },
+            c = { bg = "NONE", fg = "#ffffff" },
+          },
+          command = {
+            a = { bg = "NONE", fg = "#ae81ff", gui = "bold" },
+            b = { bg = "NONE", fg = "#ffffff" },
+            c = { bg = "NONE", fg = "#ffffff" },
+          },
+          inactive = {
+            a = { bg = "NONE", fg = "#75715e" },
+            b = { bg = "NONE", fg = "#75715e" },
+            c = { bg = "NONE", fg = "#75715e" },
+          },
+        },
+      },
+    },
+  },
+
   -- Add Mason with border configuration
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ui = {
         border = "rounded", -- Enables white borders for Mason windows
@@ -111,6 +155,26 @@ return {
           DashboardKey = { bg = "NONE" },
           DashboardDesc = { bg = "NONE" },
           DashboardIcon = { bg = "NONE" },
+
+          -- Lualine specific groups - ensure transparency
+          lualine_a_normal = { bg = "NONE" },
+          lualine_b_normal = { bg = "NONE" },
+          lualine_c_normal = { bg = "NONE" },
+          lualine_a_insert = { bg = "NONE" },
+          lualine_b_insert = { bg = "NONE" },
+          lualine_c_insert = { bg = "NONE" },
+          lualine_a_visual = { bg = "NONE" },
+          lualine_b_visual = { bg = "NONE" },
+          lualine_c_visual = { bg = "NONE" },
+          lualine_a_replace = { bg = "NONE" },
+          lualine_b_replace = { bg = "NONE" },
+          lualine_c_replace = { bg = "NONE" },
+          lualine_a_command = { bg = "NONE" },
+          lualine_b_command = { bg = "NONE" },
+          lualine_c_command = { bg = "NONE" },
+          lualine_a_inactive = { bg = "NONE" },
+          lualine_b_inactive = { bg = "NONE" },
+          lualine_c_inactive = { bg = "NONE" },
         }
 
         -- Apply TTY UI overrides
@@ -137,7 +201,7 @@ return {
         pattern = "WhichKeyOpened",
         callback = function()
           if vim.api.nvim_win_is_valid(vim.g.which_key_win) then
-            vim.api.nvim_win_set_option(vim.g.which_key_win, "winblend", 20)
+            vim.api.nvim_win_set_option_value(vim.g.which_key_win, "winblend", 20)
           end
         end,
       })
