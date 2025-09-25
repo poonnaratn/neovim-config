@@ -16,9 +16,6 @@ Approach:
 --]]
 
 return {
-  -- Disable bufferline for clean TTY look
-  { "akinsho/bufferline.nvim", enabled = false },
-
   -- Configure lualine for TTY transparency
   {
     "nvim-lualine/lualine.nvim",
@@ -175,6 +172,16 @@ return {
           lualine_a_inactive = { bg = "NONE" },
           lualine_b_inactive = { bg = "NONE" },
           lualine_c_inactive = { bg = "NONE" },
+
+          -- Blink.cmp autocomplete - transparent with white borders
+          BlinkCmpMenu = { bg = "NONE" },
+          BlinkCmpMenuBorder = { bg = "NONE", fg = "#ffffff", bold = true },
+          BlinkCmpMenuSelection = { bg = "NONE", fg = "#ffffff", bold = true },
+          BlinkCmpDoc = { bg = "NONE" },
+          BlinkCmpDocBorder = { bg = "NONE", fg = "#ffffff", bold = true },
+
+          -- File explorer - remove folder background
+          Directory = { bg = "NONE", fg = "NONE" },
         }
 
         -- Apply TTY UI overrides
